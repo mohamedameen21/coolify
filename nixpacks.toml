@@ -17,6 +17,12 @@ cmd = '/assets/start.sh'
 "start.sh" = '''
 #!/bin/bash
 
+# Ensure Laravel can write logs/cache and sqlite DB
+mkdir -p /app/storage/logs /app/bootstrap/cache /app/database
+touch /app/storage/logs/laravel.log /app/database/database.sqlite
+chown -R www-data:www-data /app/storage /app/bootstrap/cache /app/database
+chmod -R ug+rwX /app/storage /app/bootstrap/cache /app/database
+
 # Transform the nginx configuration
 node /assets/scripts/prestart.mjs /assets/nginx.template.conf /etc/nginx.conf
 
